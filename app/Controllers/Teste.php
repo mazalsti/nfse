@@ -4,10 +4,9 @@ namespace App\Controllers;
 
 
 use CodeIgniter\Controller;
-use \NFePHP\NFSe\NFSe;
-use \NFePHP\NFSe\Common\Certificate;
-use NFePHP\NFSe\Common\Soap\SoapCurl;
-use NFePHP\NFSe\Common\Soap\SoapNative;
+use NFePHP\Common\Soap\SoapCurl;
+use NFePHP\Common\Certificate;
+use NFePHP\NFSe\NFSe;
 
 class Teste extends Controller
 {
@@ -40,7 +39,8 @@ class Teste extends Controller
         //Aqui podemos escolher entre usar o SOAP nativo ou o cURL,
         //em ambos os casos os comandos são os mesmos pois observam
         //a mesma interface
-        $nfse->tools->loadSoapClass(new SoapNative());
+        // $nfse->tools->loadSoapClass(new SoapNative());
+        $nfse->tools->loadSoapClass(new SoapCurl());
 
         $nfse->tools->setDebugSoapMode(false);
 
