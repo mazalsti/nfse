@@ -8,9 +8,10 @@ use NFePHP\Common\Soap\SoapCurl;
 use NFePHP\Common\Certificate;
 use NFePHP\NFSe\NFSe;
 
+
 class Teste extends Controller
 {
-    private static $arr = [
+    private $arr = [
         "atualizacao" => "2016-08-03 18:01:21",
         "tpAmb" => 1,
         "versao" => 3.10,
@@ -30,12 +31,11 @@ class Teste extends Controller
     ];
 
     public function index(){
-
-       $configJson = json_encode(self::$arr);
+  
+       $configJson = json_encode($this->arr);
        $contentpfx = file_get_contents('../rodrigo.pfx');
        $nfse = new NFSe($configJson, Certificate::readPfx($contentpfx, 'rs0002'));
-
-
+       
         //Aqui podemos escolher entre usar o SOAP nativo ou o cURL,
         //em ambos os casos os comandos são os mesmos pois observam
         //a mesma interface

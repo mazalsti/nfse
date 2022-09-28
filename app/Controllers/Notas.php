@@ -18,7 +18,7 @@ class Notas extends ResourceController
         $cnpj = strtolower($_SERVER['REQUEST_METHOD']);
         if($cnpj === 'get'){
             
-            $data = $this->notasModel->findAll();
+            $data = $this->notasModel->find();
             return $this->response->setJSON($data);
             
         }

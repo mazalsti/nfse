@@ -10,26 +10,31 @@ class Auth extends ResourceController
     private $userModel;
     private $token = '123456789abcdefghdij';
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->userModel = new \App\Models\Auth();
     }
 
-    private function _validaToken()
-    {
+    private function _validaToken(): string {
         return $this->request->getHeaderLine('token') == $this->token;
     }
-    
-    public function login()
-    {
+
+    public function login() {
+        $db = \Config\Database::connect();
+      
         if($this->_validaToken() == true){
             $response = [];
-            $novaPesquisa['cnpj'] = $this->request->getPost('cnpj');
-            $novaPesquisa['num_nota'] = $this->request->getPost('num_nota');
-            if($this->userModel->select($novaPesquisa)){
-                $reponse = [
+            $data = [];
+            $data['email'] = $this->request->getPost('email');
+            $data['senha'] = $this->request->getPost('senha');
+      
+            $query = $db->query("SELECT nome, email, senha FROM {$this->userModel->table}");
+            $results = $query->getResult();
+            
+            if($this->userModel){
+                $response = [
                     'response' => 'success',
-                    'msg'   => 'Nota encontrada com Sucesso!'
+                    'msg'   => 'Nota encontrada com Sucesso!',
+                    'result' => $results
                 ];
             }else{
                 $response = [
@@ -44,6 +49,6 @@ class Auth extends ResourceController
                 'msg'  =>  'Token invalido'
             ];
         }
-        return $this->response->setJSON($reponse);
+        return $this->response->setJSON($response);
     }
 }
